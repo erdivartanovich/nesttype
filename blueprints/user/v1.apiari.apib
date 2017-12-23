@@ -1,0 +1,272 @@
+FORMAT: 1A
+HOST: http://localhost:3000/api/v1
+
+
+# User
+
+API documentation for hapiplants/user backend. It is designed based on [JSON API](http://jsonapi.org/) specification for standardizing used. 
+It intentionally marked as version-1 (v1). The future implementation may or may not be separated in a different version. 
+You can directly use the [Mockup Server](https://private-353954-v1userhapiplants.apiary-mock.com/users/), 
+it will work and provide response just like the real backend API.
+
+- Mockup-Server Base Url: https://private-353954-v1userhapiplants.apiary-mock.com/users/
+- Local-Server Base Url: http://localhost:3000/api/v1
+- Dev-Server Base Url: -
+- Production-Server Base Url: -
+
+All routes support query parameters to refine the responses.
+
+- **[include](http://jsonapi.org/format/#fetching-relationships)**
+
+  to include relation use include=:relation_name_separated_by_comma For example this will include tags to users relation
+
+  `GET /users?include=tags`
+
+  <br><hr/>
+
+- **[fields](http://jsonapi.org/format/#fetching-sparse-fieldsets)**
+
+  Sparse fieldset use fields[:resourcename]=:fied_names_separated_by_dot parameter
+
+  `GET /users?include=tags&fields[users]=first_name,email`
+
+  <br><hr/>
+
+- **[sort](http://jsonapi.org/format/#fetching-sorting)**
+
+  Sorting support requests to sort the primary data with a sort query parameter. The value for sort are represent sort fields.
+
+  `GET /users?sort=first_name`
+
+  **Sort Order**
+
+  - **Ascendant**
+
+    `GET /users?sort=email`
+
+  - **Descendant**
+
+     `GET /users?sort=-email`
+
+     *Put minus operator as a prefix of field used to request sorting.*
+
+  - **Multiple Sort Attribute**
+
+     `GET /users?sort=email,first_name`
+
+     *An endpoint support multiple sort fields by allowing comma-separated (U+002C COMMA, “,”) sort fields. Sort fields SHOULD be applied in the order specified.*
+
+  - **Sort by Resource**
+
+     `GET /users?sort=users.first_name`
+
+     *dot-separated (U+002E FULL-STOP, “.”) sort fields be used to request sorting based upon resource relationship attributes. For example, a sort field of users.first_name could be used to request that the primary data be sorted based upon the name attribute of the author relationship.*
+
+   <br><hr/>
+
+- **[page](http://jsonapi.org/format/#fetching-pagination)**
+
+  *Pagination use offset strategy, query parameter*
+
+  `GET /users?page[offset]=1&page[limit]=100`
+
+   <br><hr/>
+
+- **[filter](http://jsonapi.org/format/#fetching-filtering)**
+
+  `GET /users?filter[:attribute_name][:operator]=:value`
+
+
+  ##Filter Attribute
+
+  - Single attribute
+
+      `filter[first_name][like]=%john`
+
+
+  - Concatenation attribute
+
+      `filter[first_name,last_name][like]=%john`
+
+
+  ##Filter relation
+
+  To filter by relations u must supply include relation. For example in this case we will include relation `emails` and `addresses` and filter by `emails.first_name` like `%john`:
+
+  `/users?include=tags&filter[tags.tag][like]=talent`
+
+
+  ##Filter Operator Condition
+
+  **Like**
+
+  `filter[:attribute_name][like]=:value`
+
+  **Not Like**
+
+  `filter[:attribute_name][!like]=:value`
+
+  **Equal**
+
+  `filter[:attribute_name][is]=:value`
+
+  **Not Equal**
+
+  `filter[:attribute_name][!is]=:value`
+
+  **Between**
+
+  `filter[:attribute_name][between]=:value_start,:value_end`
+
+  **Not Between**
+
+  `filter[:attribute_name][!between]=:value_start,:value_end`
+
+  **Greater Than**
+
+  `filter[:attribute_name][gt]=:value`
+
+  **Greater Than or Equal**
+
+  `filter[:attribute_name][gte]=:value`
+
+  **Less Than**
+
+  `filter[:attribute_name][lt]=:value`
+
+  **Lesser Than or Equal**
+
+  `filter[:attribute_name][lte]=:value`
+
+  **In**
+
+  `filter[:attribute_name][in]=:value1,:value2,:value3`
+
+  **Not In**
+
+  `filter[:attribute_name][!in]=:value1,:value2,:value3`
+
+
+  <br><hr/>
+
+  Here is the lists of available attributes for each resources. You might need to add prefix resource-name for a usage through included resources. For example you are including `tags` resource when displaying `users` and you want filter by `tag`, your filter attribute will be `tags.tag`
+
+- **users**
+
+  - id
+  - first_name
+  - last_name
+  - legal_name
+  - primary_email
+  - primary_phone
+  - username
+  - community_id
+  - status
+  - birth_date
+  - gender
+  - profile_photo
+  - created_at
+  - updated_at
+  - deleted_at
+
+## Users [/users]
+
+### Get list user [GET /users]
+
++ Request (application/vnd.api+json)
+    + Headers
+
+            Authorization: Bearer 71260693-8eb9-45d8-8781-f60fc32a1dff
+
++ Response 200 (application/vnd.api+json)
+
+    + Attributes
+        + meta (object)
+            + count: 2 (number)
+            + total: 2 (number)
+        + data (array)
+            + (UserResponse)
+                - id: `1`
+                - type: `users`
+                + links (object)
+                    + self: `http://localhost:3000/api/v1/users/1` (string)
+
+            + (UserResponse)
+                - id: `4`
+                - type: `users`
+                - attributes
+                    - community_id: 4
+                + links (object)
+                    + self: `http://localhost:3000/api/v1/users/4` (string)
+
+        + links (object)
+            + first: `http://localhost:3000/api/v1/users?filter[first_name][like]=Jo&page[limit]=10&page[offset]=0` (string)
+            + last: `http://localhost:3000/api/v1/users?filter[first_name][like]=Jo&page[limit]=10&page[offset]=0` (string)
+            + next: null (nullable)
+            + prev: null (nullable)
+
+### Get one user [GET /users/{id}]
+
++ Parameters
+    + id: `1` (number, required) - user id
+
++ Request (application/vnd.api+json)
+    + Headers
+
+            Authorization: Bearer 71260693-8eb9-45d8-8781-f60fc32a1dff
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (UserResponse)
+
++ Response 401 (application/vnd.api+json)
+    + Attributes
+        + errors (Error)
+
+### Update user [PATCH /users/{id}]
+
++ Parameters
+    + id: `1` (number, required) - user id
+
++ Request (application/vnd.api+json)
+    + Headers
+
+            Authorization: Bearer 71260693-8eb9-45d8-8781-f60fc32a1dff
+
+    + Attributes
+        + data (User)
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (UserResponse)
+
++ Response 401 (application/vnd.api+json)
+    + Attributes
+        + errors (Error)
+
+## Data Structures
+
+### UserResponse
+- id: `1`
+- type: `users`
+- attributes (User)
+- links (object)
+    - self: `http://localhost:3000/api/v1/users/1` (string)
+
+### User
+- first_name: `John` (string)
+- last_name: `Doe` (string)
+- primary_email: `johndoe@gmail.com` (string)
+- auth_type: 1 (number)
+- community_id: 1 (number)
+- status: 1 (number)
+
+### Error
+- links (string)
+- status (enum[number])
+    - 404
+    - 401
+    - 400
+    - 403
++ code (string)
++ title (string)
