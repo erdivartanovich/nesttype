@@ -1,5 +1,7 @@
 import { Get, Controller } from '@nestjs/common';
 import { v1BaseUrl } from '../../config/app.';
+import { UserService } from './user.service';
+import { User } from './user.entity';
 
 /**
  * User controller
@@ -10,8 +12,9 @@ const baseURL = v1BaseUrl(domain);
 
 @Controller(baseURL)
 export class UserController {
+    constructor(private readonly userService: UserService) {}
 	@Get()
-	getList(): string {
-        return 'user index';
+	findAll(): Promise<User[]> {
+        return this.userService.findAll();
     }
 }

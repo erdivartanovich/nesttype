@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './v1/user.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
+import { User } from './user/user.entity';
 
 /**
  * Application IOC container
@@ -7,8 +9,6 @@ import { UserController } from './v1/user.controller';
  * Register All components (services/ repository, factory etc in Components key)
  */
 @Module({
-  modules: [],
-  controllers: [UserController],
-  components: [],
+  modules: [TypeOrmModule.forRoot([User]), UserModule],
 })
 export class ApplicationModule {}
