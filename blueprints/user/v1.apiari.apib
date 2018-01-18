@@ -158,7 +158,6 @@ All routes support query parameters to refine the responses.
   - id
   - first_name
   - last_name
-  - legal_name
   - primary_email
   - primary_phone
   - username
@@ -169,7 +168,6 @@ All routes support query parameters to refine the responses.
   - profile_photo
   - created_at
   - updated_at
-  - deleted_at
 
 ## Users [/users]
 
@@ -259,9 +257,16 @@ All routes support query parameters to refine the responses.
 - first_name: `John` (string)
 - last_name: `Doe` (string)
 - primary_email: `johndoe@gmail.com` (string)
+- primary_phone: `+6285311222211` (string)
+- username: `johndoe` (string)
 - auth_type: 1 (number)
 - community_id: 1 (number)
 - status: 1 (number)
+- birth_date: `1991/01/01` (string)
+- gender: `male` (string)
+- profile_photo: `path_to_file` (string)
+- created_at: `2018/01/01 00:00:00` (string)
+- updated_at: `2018/01/01 00:00:00` (string)
 
 ### Error
 - links (string)
