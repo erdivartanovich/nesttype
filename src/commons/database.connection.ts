@@ -15,8 +15,6 @@ export async function databaseConnection() {
                 ]
             });
 
-            console.log(options);
-            
             return createConnection(options);
         })
 }
