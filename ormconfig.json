@@ -5,6 +5,5 @@
   "username": "root",
   "password": "root",
   "database": "hapiplant",
-  "entities": ["src/**/**.entity{.ts,.js}"],
   "autoSchemaSync": true
 }

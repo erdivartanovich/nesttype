@@ -1,4 +1,12 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import {
+    Entity, 
+    Column, 
+    PrimaryGeneratedColumn, 
+    CreateDateColumn, 
+    UpdateDateColumn,
+    OneToMany, 
+} from "typeorm";
+
 import {Pot} from "../pot/pot.entity";
 
 @Entity()

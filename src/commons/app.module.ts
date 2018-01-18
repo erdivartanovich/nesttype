@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { PotModule } from './pot/pot.module';
+import { UserModule } from '../domains/user/user.module';
+import { PotModule } from '../domains/pot/pot.module';
 
 /**
  * Application IOC container
