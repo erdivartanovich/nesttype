@@ -2,6 +2,9 @@
 
 Backend API for Hapi Plants system. Build on top of [Nest.js](https://github.com/nestjs/nest) (Node Express/ Typescript)
 
+Other stacks used:
+- [TypeORM](http://typeorm.io/) 
+
 ## Documentation
 
 Documentation for each route/endpoint is available here:
