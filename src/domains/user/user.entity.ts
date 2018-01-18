@@ -40,6 +40,9 @@ export class User {
     @Column()
     profilePhoto: string
 
+    @Column("int")
+    authType: number
+
     @OneToMany(type => Pot, pot => pot.user)
     pots: Pot[];
 }
