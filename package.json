@@ -7,7 +7,8 @@
     "start": "node index.js",
     "start:watch": "nodemon",
     "prestart:prod": "tsc",
-    "start:prod": "node dist/server.js"
+    "start:prod": "node dist/server.js",
+    "postinstall": "npm install typescript typeorm -g"
   },
   "dependencies": {
     "@nestjs/common": "^4.5.0",
