@@ -16,7 +16,15 @@ it will work and provide response just like the real backend API.
 
 Go ahead to [Reference](https://v1userhapiplants.docs.apiary.io/#reference/0/users) section to read detail about each of the end-point available.
 
-All routes support query parameters to refine the responses.
+
+**Important Notes**:
+
+- We use *UUID (Universal Unique Identifier)* for the primary key `id` instead of serial generated value.
+
+- All routes support query parameters to refine the responses.
+
+
+**Availabel query parameter**:
 
 - **[include](http://jsonapi.org/format/#fetching-relationships)**
 
@@ -186,18 +194,18 @@ All routes support query parameters to refine the responses.
             + total: 2 (number)
         + data (array)
             + (UserResponse)
-                - id: `1`
+                - id: `27a40760-12fa-4c60-95a8-4045d834ab14`
                 - type: `users`
                 + links (object)
-                    + self: `http://localhost:3000/api/v1/users/1` (string)
+                    + self: `http://localhost:3000/api/v1/users/27a40760-12fa-4c60-95a8-4045d834ab14` (string)
 
             + (UserResponse)
-                - id: `4`
+                - id: `27a40760-12fa-4c60-95a8-4045d834ab14`
                 - type: `users`
                 - attributes
                     - community_id: 4
                 + links (object)
-                    + self: `http://localhost:3000/api/v1/users/4` (string)
+                    + self: `http://localhost:3000/api/v1/users/27a40760-12fa-4c60-95a8-4045d834ab14` (string)
 
         + links (object)
             + first: `http://localhost:3000/api/v1/users?filter[first_name][like]=Jo&page[limit]=10&page[offset]=0` (string)
@@ -247,11 +255,11 @@ All routes support query parameters to refine the responses.
 ## Data Structures
 
 ### UserResponse
-- id: `1`
+- id: `27a40760-12fa-4c60-95a8-4045d834ab14`
 - type: `users`
 - attributes (User)
 - links (object)
-    - self: `http://localhost:3000/api/v1/users/1` (string)
+    - self: `http://localhost:3000/api/v1/users/27a40760-12fa-4c60-95a8-4045d834ab14` (string)
 
 ### User
 - first_name: `John` (string)
