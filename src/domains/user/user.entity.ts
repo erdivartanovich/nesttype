@@ -7,9 +7,6 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @OneToMany(type => Pot, pot => pot.user)
-    pots: Pot[];
-
     @Column()
     firstName: string;
 
@@ -19,4 +16,6 @@ export class User {
     @Column()
     primaryEmail: string;
 
+    @OneToMany(type => Pot, pot => pot.user)
+    pots: Pot[];
 }

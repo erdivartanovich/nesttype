@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { User } from './user/user.entity';
 import { PotModule } from './pot/pot.module';
-import { Pot } from './pot/pot.entity';
 
 /**
  * Application IOC container
@@ -12,10 +10,6 @@ import { Pot } from './pot/pot.entity';
  */
 @Module({
   modules: [
-    TypeOrmModule.forRoot([
-      User, 
-      Pot
-    ]), 
     UserModule, 
     PotModule
   ],
