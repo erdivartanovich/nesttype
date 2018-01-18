@@ -4,7 +4,8 @@ Backend API for Hapi Plants system. Build on top of [Nest.js](https://github.com
 
 ## Documentation
 
-Documentation is available [here](https://v1userhapiplants.docs.apiary.io/#)
+Documentation for each route/endpoint is available here:
+- [User](https://v1userhapiplants.docs.apiary.io/#)
 
 ## Setup
 
@@ -16,4 +17,10 @@ Documentation is available [here](https://v1userhapiplants.docs.apiary.io/#)
 
 ```sh
   $ npm start
+```
+
+or with autoreaload demon:
+
+```sh
+  $ npm run start:watch
 ```
