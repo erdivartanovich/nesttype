@@ -82,7 +82,7 @@ export class User {
     authType: number
 
     @OneToMany(type => Container, container => container.user, {
-        cascadeUpdate: true
+        cascade: true
     })
     containers: Container[];
 }

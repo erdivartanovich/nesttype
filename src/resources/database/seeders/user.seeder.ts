@@ -37,6 +37,6 @@ export function userSeeder() {
         .values(generateUser())
         .execute()
     )
-    .then(result => console.log(result.affectedRows, "User seeder executed"))
+    .then(result => console.log("User seeder executed"))
     .catch(error => console.log(error));
 }

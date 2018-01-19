@@ -15,14 +15,14 @@
     "@nestjs/core": "^4.5.0",
     "@nestjs/microservices": "^4.5.0",
     "@nestjs/testing": "^4.5.0",
+    "@nestjs/typeorm": "^2.0.0",
     "@nestjs/websockets": "^4.5.0",
+    "mysql": "^2.14.1",
     "redis": "^2.7.1",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.4.3",
-    "typescript": "^2.6.2",
-    "@nestjs/typeorm": "^2.0.0",
-    "typeorm": "^0.1.9",
-    "mysql": "^2.14.1"
+    "typeorm": "^0.2.0-alpha.15",
+    "typescript": "^2.6.2"
   },
   "devDependencies": {
     "@types/chance": "^0.7.36",
