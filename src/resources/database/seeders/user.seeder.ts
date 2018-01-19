@@ -28,7 +28,7 @@ const generateUser = function() {
 }
 
 export async function userSeeder() {
-    console.log("Seeding User ...")
+    console.log("Seeding User ...");
     const connection = await databaseConnection();
     await connection.getRepository(User)
         .createQueryBuilder()
