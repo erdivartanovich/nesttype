@@ -17,6 +17,8 @@
     "@nestjs/testing": "^4.5.0",
     "@nestjs/typeorm": "^2.0.0",
     "@nestjs/websockets": "^4.5.0",
+    "class-transformer": "^0.1.8",
+    "class-validator": "^0.7.3",
     "mysql": "^2.14.1",
     "redis": "^2.7.1",
     "reflect-metadata": "^0.1.10",
