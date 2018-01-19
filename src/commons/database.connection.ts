@@ -6,15 +6,20 @@ export async function databaseConnection() {
         .then(connectionOptions => {
             var options: ConnectionOptions;
             
-            // apply NamingStrategy option for DB TableName and ColumnName, using snake_case
-            options = Object.assign(connectionOptions, {namingStrategy: new NamingStrategy()});
-
-            options = Object.assign(options,{ 
+            options = Object.assign(connectionOptions,{ 
                 entities: [
                     __dirname + '/../**/*.entity{.ts,.js}'
                 ]
             });
+            
+            // apply NamingStrategy option for DB TableName and ColumnName, using snake_case
+            options = Object.assign(options, {namingStrategy: new NamingStrategy()});
 
+            // apply auto synchronize schema option
+            options = Object.assign(options, {synchronize: true});
+            
+            console.log(options);
+            
             return createConnection(options);
         })
 }
