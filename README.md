@@ -3,7 +3,9 @@
 Backend API for Hapi Plants system. Build on top of [Nest.js](https://github.com/nestjs/nest) (Node Express/ Typescript)
 
 Other stacks used:
-- [TypeORM](http://typeorm.io/) 
+- [TypeORM](http://typeorm.io/) . A Conprenhensive and Advance ORM library for typescript.
+- [Chance JS](http://chancejs.com/). This library used to generate fake date in the database seeder.
+- [PubNub SDK](https://www.pubnub.com). PubNub is a Realtime Data Streaming And Communication Platform.
 
 ## Domain End-point Documentation
 
@@ -35,7 +37,7 @@ This command will install all project dependecies, and install `typescript` comp
   $ npm start
 ```
 
-or with autoreaload demon:
+or with autoreload demon:
 
 ```sh
   $ npm run start:watch
