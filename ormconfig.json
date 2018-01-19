@@ -5,5 +5,9 @@
   "username": "root",
   "password": "root",
   "database": "hapiplant",
-  "autoSchemaSync": true
+  "autoSchemaSync": true,
+  "logging": ["error"],
+  "cli": {
+    "migrationsDir": "src/resources/database/migrations"
+  }
 }
