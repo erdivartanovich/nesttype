@@ -36,3 +36,11 @@ or with autoreaload demon:
 ```sh
   $ npm run start:prod
 ```
+
+# Database migration & seeder
+
+## run seeder
+
+```sh
+  $ npm run seed
+```
