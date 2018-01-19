@@ -8,7 +8,7 @@
     "start:watch": "nodemon",
     "prestart:prod": "tsc",
     "start:prod": "node dist/server.js",
-    "postinstall": "npm install typescript typeorm -g",
+    "preinstall": "npm install typescript typeorm -g",
     "seed": "tsc && node dist/resources/database/seeders/database.seeder.js"
   },
   "dependencies": {
@@ -16,13 +16,13 @@
     "@nestjs/core": "^4.5.0",
     "@nestjs/microservices": "^4.3.0",
     "@nestjs/testing": "^4.3.0",
-    "@nestjs/typeorm": "^1.0.0",
+    "@nestjs/typeorm": "^2.0.0",
     "@nestjs/websockets": "^4.3.0",
     "mysql": "^2.14.1",
     "redis": "^2.7.1",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.4.3",
-    "typeorm": "0.1.0-alpha.40",
+    "typeorm": "^0.1.9",
     "typescript": "^2.6.2"
   },
   "devDependencies": {
