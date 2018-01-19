@@ -22,3 +22,5 @@ npm-debug.log
 
 # env
 ormconfig.json
+yarn.lock
+yarn-error.log
