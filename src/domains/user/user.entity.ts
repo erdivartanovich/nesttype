@@ -13,42 +13,72 @@ import {Pot} from "../pot/pot.entity";
 export class User {
 
     @PrimaryGeneratedColumn("uuid")
-    id: number;
+    id: string;
 
-    @CreateDateColumn({ type: "timestamp" })
+    @CreateDateColumn({
+        type: "timestamp",
+        nullable: true
+    })
     createdAt: number;
 
-    @UpdateDateColumn({ type: "timestamp" })
+    @UpdateDateColumn({
+        type: "timestamp",
+        nullable: true
+    })
     updatedAt: number;
 
-    @Column()
+    @Column({ type: "varchar" })
     firstName: string;
 
-    @Column()
+    @Column({
+        type: "varchar",
+        nullable: true
+    })
     lastName: string;
 
-    @Column()
+    @Column({ 
+        type: "varchar",
+        unique: true
+    })
     primaryEmail: string;
 
-    @Column()
+    @Column({ 
+        type: "varchar",
+        unique: true
+    })
     primaryPhone: string;
 
-    @Column()
+    @Column({ type: "varchar" })
     userName: string;
 
-    @Column()
+    @Column({
+        type: "varchar",
+        nullable: true
+    })
     status: string;
 
-    @Column({type: "datetime"})
+    @Column({
+        type: "datetime",
+        nullable: true
+    })
     birthDate: number
 
-    @Column()
+    @Column({
+        type: "varchar",
+        nullable: true
+    })
     gender: string
     
-    @Column()
+    @Column({
+        type: "varchar",
+        nullable: true
+    })
     profilePhoto: string
 
-    @Column("int")
+    @Column({
+        type: "int",
+        default: "0"
+    })
     authType: number
 
     @OneToMany(type => Pot, pot => pot.user)

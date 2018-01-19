@@ -13,21 +13,37 @@ import {User} from "../user/user.entity";
 export class Pot {
 
     @PrimaryGeneratedColumn("uuid")
-    id: number;
+    id: string;
 
-    @CreateDateColumn({ type: "timestamp" })
+    @CreateDateColumn({
+        type: "timestamp",
+        nullable: true
+    })
     createdAt: number;
 
-    @UpdateDateColumn({ type: "timestamp" })
+    @UpdateDateColumn({
+        type: "timestamp",
+        nullable: true
+    })
     updatedAt: number;
 
-    @Column("float")
+    @Column({
+        type: "float",
+        nullable: true
+    })
     soilSensorValue: number;
 
-    @Column("float")
+    @Column({
+        type: "float",
+        nullable: true,
+        default: "0"
+    })
     plantLength: number;
 
-    @Column("int")
+    @Column({
+        type: "int",
+        nullable: true
+    })
     lampStatus: number;
 
     @ManyToOne(type => User, user => user.pots)
