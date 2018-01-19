@@ -21,13 +21,13 @@ export class Container {
         type: "timestamp",
         nullable: true
     })
-    createdAt: number;
+    created_at: number;
 
     @UpdateDateColumn({
         type: "timestamp",
         nullable: true
     })
-    updatedAt: number;
+    updated_at: number;
 
     @OneToMany(type => Pot, pot => pot.container, {
         cascade: true

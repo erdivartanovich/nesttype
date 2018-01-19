@@ -19,37 +19,37 @@ export class User {
         type: "timestamp",
         nullable: true
     })
-    createdAt: number;
+    created_at: number;
 
     @UpdateDateColumn({
         type: "timestamp",
         nullable: true
     })
-    updatedAt: number;
+    updated_at: number;
 
     @Column({ type: "varchar" })
-    firstName: string;
+    first_name: string;
 
     @Column({
         type: "varchar",
         nullable: true
     })
-    lastName: string;
+    last_name: string;
 
     @Column({ 
         type: "varchar",
         unique: true
     })
-    primaryEmail: string;
+    primary_email: string;
 
     @Column({ 
         type: "varchar",
         unique: true
     })
-    primaryPhone: string;
+    primary_phone: string;
 
     @Column({ type: "varchar" })
-    userName: string;
+    user_name: string;
 
     @Column({
         type: "varchar",
@@ -61,7 +61,7 @@ export class User {
         type: "datetime",
         nullable: true
     })
-    birthDate: number
+    birth_date: number
 
     @Column({
         type: "varchar",
@@ -73,13 +73,13 @@ export class User {
         type: "varchar",
         nullable: true
     })
-    profilePhoto: string
+    profile_photo: string
 
     @Column({
         type: "int",
         default: "0"
     })
-    authType: number
+    auth_type: number
 
     @OneToMany(type => Container, container => container.user, {
         cascade: true

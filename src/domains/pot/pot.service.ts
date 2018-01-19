@@ -17,9 +17,9 @@ export class PotService {
 
   async create(createPotDto: CreatePotDto) {
     const pot = new Pot();
-    pot.soilSensorValue = createPotDto.soil_sensor_value; 
-    pot.plantLength = createPotDto.plant_length; 
-    pot.lampStatus = createPotDto.lamp_status; 
+    pot.soil_sensor_value = createPotDto.soil_sensor_value; 
+    pot.plant_length = createPotDto.plant_length; 
+    pot.lamp_status = createPotDto.lamp_status; 
     return await this.potRepository.save(pot);
   }
 }

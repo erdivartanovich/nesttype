@@ -19,32 +19,32 @@ export class Pot {
         type: "timestamp",
         nullable: true
     })
-    createdAt: number;
+    created_at: number;
 
     @UpdateDateColumn({
         type: "timestamp",
         nullable: true
     })
-    updatedAt: number;
+    updated_at: number;
 
     @Column({
         type: "float",
         nullable: true
     })
-    soilSensorValue: number;
+    soil_sensor_value: number;
 
     @Column({
         type: "float",
         nullable: true,
         default: "0"
     })
-    plantLength: number;
+    plant_length: number;
 
     @Column({
         type: "int",
         nullable: true
     })
-    lampStatus: number;
+    lamp_status: number;
 
     @ManyToOne(type => Container, container => container.pots)
     container: Container;
