@@ -5,12 +5,23 @@ Backend API for Hapi Plants system. Build on top of [Nest.js](https://github.com
 Other stacks used:
 - [TypeORM](http://typeorm.io/) 
 
-## Documentation
+## Domain End-point Documentation
 
-Documentation for each route/endpoint is available here:
+Domain is the entitiy we manage, it represent a specific data encapsulated in its own end-point.
+Documentation for each domain route/endpoint is available here:
 - [User](https://v1userhapiplants.docs.apiary.io/#)
+- ...
 
 ## Setup & Run
+
+Prerequisites:
+- NodeJS (v.8.9.0 LTS recommended)
+- MySQL
+
+Steps:
+- Create new MYSQL database e.g `hapiplant`
+- Configure `ormconfig.json` file in the project roo directory, if the file doesn't exist you can copy `ormconfig.json.example`
+  Change `username`, `password`, and `database` according to your local MSQL configuration.
 
 ```sh
   $ npm install
