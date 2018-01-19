@@ -1,6 +1,16 @@
+import { IsString, IsNumber, IsInt, IsNotEmpty, IsDefined } from 'class-validator';
 export class CreatePotDto {
-    readonly soilSensorValue: number;
-    readonly plantLength: number;
-    readonly lampStatus: number;
-    readonly containerId: string;
+    @IsNumber()
+    readonly soil_sensor_value: number;
+
+    @IsNumber()
+    readonly plant_length: number;
+
+    @IsInt()
+    readonly lamp_status: number;
+
+    @IsNotEmpty()
+    @IsDefined()
+    @IsString()
+    readonly container_id: string;
 }
