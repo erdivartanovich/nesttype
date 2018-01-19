@@ -27,16 +27,13 @@ const generateUser = function() {
     return users;
 }
 
-export function userSeeder() {
-    return databaseConnection()
-    .then(connection => connection.getRepository(User))
-    .then(repository => repository.createQueryBuilder("user"))
-    .then(query => 
-        query.insert()
+export async function userSeeder() {
+    console.log("Seeding User ...")
+    const connection = await databaseConnection();
+    await connection.getRepository(User)
+        .createQueryBuilder()
+        .insert()
         .into(User)
         .values(generateUser())
-        .execute()
-    )
-    .then(result => console.log("User seeder executed"))
-    .catch(error => console.log(error));
+        .execute();
 }

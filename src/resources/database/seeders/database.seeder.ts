@@ -7,5 +7,11 @@ async function run() {
 
 // run all seeder
 run()
-    .then(result => process.exit())
-    .catch(error => process.exit(1));
+    .then(result => {
+        console.log("All seeders executed successfully");
+        process.exit()
+    })
+    .catch(error => {
+        console.log(error);
+        process.exit(1);
+    });
