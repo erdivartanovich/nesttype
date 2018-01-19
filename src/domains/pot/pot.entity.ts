@@ -46,7 +46,9 @@ export class Pot {
     })
     lampStatus: number;
 
-    @ManyToOne(type => Container, container => container.pots)
+    @ManyToOne(type => Container, container => container.pots, {
+        cascadeUpdate: true
+    })
     container: Container;
 
 }

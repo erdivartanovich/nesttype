@@ -4,7 +4,7 @@ import {
     PrimaryGeneratedColumn, 
     CreateDateColumn, 
     UpdateDateColumn,
-    OneToMany, 
+    OneToMany,
 } from "typeorm";
 
 import {Container} from "../container/container.entity";
@@ -81,6 +81,8 @@ export class User {
     })
     authType: number
 
-    @OneToMany(type => Container, container => container.user)
+    @OneToMany(type => Container, container => container.user, {
+        cascadeUpdate: true
+    })
     containers: Container[];
 }

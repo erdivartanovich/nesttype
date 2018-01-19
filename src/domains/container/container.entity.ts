@@ -29,10 +29,14 @@ export class Container {
     })
     updatedAt: number;
 
-    @OneToMany(type => Pot, pot => pot.container)
+    @OneToMany(type => Pot, pot => pot.container, {
+        cascadeUpdate: true
+    })
     pots: Pot[];
 
-    @ManyToOne(type => User, user => user.containers)
+    @ManyToOne(type => User, user => user.containers, {
+        cascadeUpdate: true
+    })
     user: User;
 
 }
