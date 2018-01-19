@@ -7,7 +7,7 @@ import {
     ManyToOne, 
 } from "typeorm";
 
-import {User} from "../user/user.entity";
+import {Container} from "../container/container.entity";
 
 @Entity()
 export class Pot {
@@ -46,7 +46,7 @@ export class Pot {
     })
     lampStatus: number;
 
-    @ManyToOne(type => User, user => user.pots)
-    user: User;
+    @ManyToOne(type => Container, container => container.pots)
+    container: Container;
 
 }

@@ -7,7 +7,7 @@ import {
     OneToMany, 
 } from "typeorm";
 
-import {Pot} from "../pot/pot.entity";
+import {Container} from "../container/container.entity";
 
 @Entity()
 export class User {
@@ -81,6 +81,6 @@ export class User {
     })
     authType: number
 
-    @OneToMany(type => Pot, pot => pot.user)
-    pots: Pot[];
+    @OneToMany(type => Container, container => container.user)
+    containers: Container[];
 }
