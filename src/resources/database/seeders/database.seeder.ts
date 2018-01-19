@@ -1,9 +1,11 @@
 import {userSeeder} from './user.seeder';
 
-function run():void {
+async function run() {
     // execute userSeeder;
-    userSeeder();
+    await userSeeder();
 }
 
 // run all seeder
-run();
+run()
+    .then(result => process.exit())
+    .catch(error => process.exit(1));

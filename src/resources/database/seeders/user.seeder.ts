@@ -18,14 +18,17 @@ const generateUser = function() {
             lastName: lastName,
             primaryEmail: faker.email(),
             primaryPhone: faker.phone(),
-            userName: userName
+            userName: userName,
+            birthDate: faker.birthday(),
+            gender: faker.gender(),
+            profilePhoto: faker.url()
         });
     }
     return users;
 }
 
 export function userSeeder() {
-    databaseConnection()
+    return databaseConnection()
     .then(connection => connection.getRepository(User))
     .then(repository => repository.createQueryBuilder("user"))
     .then(query => 
