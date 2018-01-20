@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from '../../commons/database.module';
+import { DatabaseModule } from '../../commons/database/database.module';
 import { potProviders } from './pot.providers';
 import { PotService } from './pot.service';
 import { PotController } from './pot.controller';

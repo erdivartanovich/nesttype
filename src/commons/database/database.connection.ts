@@ -8,18 +8,17 @@ export async function databaseConnection() {
             
             options = Object.assign(connectionOptions,{ 
                 entities: [
-                    __dirname + '/../**/*.entity{.ts,.js}'
+                    __dirname + '/../../**/*.entity{.ts,.js}'
                 ]
             });
             
             // apply NamingStrategy option for DB TableName and ColumnName, using snake_case
-            options = Object.assign(options, {namingStrategy: new NamingStrategy()});
-
             // apply auto synchronize schema option
-            options = Object.assign(options, {synchronize: true});
-            
-            console.log(options);
-            
+            options = Object.assign(options, {
+                synchronize: true,
+                namingStrategy: new NamingStrategy(),
+            });
+
             return createConnection(options);
         })
 }
