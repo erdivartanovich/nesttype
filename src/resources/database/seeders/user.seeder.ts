@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { databaseConnection } from '../../../commons/database.connection';
+import { databaseConnection } from '../../../commons/database/database.connection';
 import { User } from '../../../domains/user/user.entity';
 import { Chance } from 'chance';
 import { error } from 'util';
@@ -14,14 +14,14 @@ const generateUser = function() {
             userName = (firstName+lastName).toLowerCase()
         users.push({
             id: faker.guid(),
-            firstName: firstName,
-            lastName: lastName,
-            primaryEmail: faker.email(),
-            primaryPhone: faker.phone(),
-            userName: userName,
-            birthDate: faker.birthday(),
+            first_name: firstName,
+            last_name: lastName,
+            primary_email: faker.email(),
+            primary_phone: faker.phone(),
+            user_name: userName,
+            birth_date: faker.birthday(),
             gender: faker.gender(),
-            profilePhoto: faker.url()
+            profile_photo: faker.url()
         });
     }
     return users;
