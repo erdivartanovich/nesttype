@@ -7,25 +7,11 @@ import {
     ManyToOne, 
 } from "typeorm";
 
-import {Container} from "../container/container.entity";
+import { BaseEntity } from '../base.entity';
+import {Container} from '../container/container.entity';
 
 @Entity()
-export class Pot {
-
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
-
-    @CreateDateColumn({
-        type: "timestamp",
-        nullable: true
-    })
-    created_at: number;
-
-    @UpdateDateColumn({
-        type: "timestamp",
-        nullable: true
-    })
-    updated_at: number;
+export class Pot extends BaseEntity {
 
     @Column({
         type: "float",

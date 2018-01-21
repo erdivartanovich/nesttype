@@ -1,8 +1,8 @@
-import { Get, Post, Body, Controller } from '@nestjs/common';
+import { Get, Post, Patch, Body, Param, Controller } from '@nestjs/common';
 import { v1BaseUrl } from '../../config/app.';
 import { PotService } from './pot.service';
 import { Pot } from './pot.entity';
-import { CreatePotDto } from './dto/create-pot.dto';
+import { PotDto } from './dto/pot.dto';
 
 /**
  * Pot controller
@@ -20,9 +20,21 @@ export class PotController {
         return this.potService.findAll();
     }
 
+    @Get(':id')
+	find(@Param() params): Promise<Pot> {
+        var id = params.id;
+        return this.potService.find(id);
+    }
+
      @Post()
-     create(@Body() createPotDto: CreatePotDto): Promise<Pot> {
+     create(@Body() createPotDto: PotDto): Promise<Pot>|Object {
         return this.potService.create(createPotDto);
+     }
+
+     @Patch(':id')
+     update(@Param() params, @Body() updatePotDto: PotDto): Promise<Pot>|Object {
+         var id = params.id;
+        return this.potService.update(id, updatePotDto);
      }
 
 }
