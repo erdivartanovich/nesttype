@@ -12,6 +12,7 @@ Other stacks used:
 Domain is the entitiy we manage, it represent a specific data encapsulated in its own end-point.
 Documentation for each domain route/endpoint is available here:
 - [User](https://v1userhapiplants.docs.apiary.io/#)
+- [Pot](https://v1pothappiplants.docs.apiary.io/#)
 - ...
 
 ## Setup & Run

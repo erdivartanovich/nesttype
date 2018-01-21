@@ -1,0 +1,301 @@
+FORMAT: 1A
+HOST: http://localhost:3000/api/v1
+
+
+# Pot
+
+API documentation for hapiplants/Pot backend. It is designed based on [JSON API](http://jsonapi.org/) specification for standardizing used. 
+It intentionally marked as version-1 (v1). The future implementation may or may not be separated in a different version. 
+You can directly use the [Mockup Server](http://private-a54187-v1pothappiplants.apiary-mock.com/api/v1/pots), 
+it will work and provide response just like the real backend API.
+
+- Mockup-Server Base Url: http://private-a54187-v1pothappiplants.apiary-mock.com/api/v1/pots
+- Local-Server Base Url: http://localhost:3000/api/v1
+- Dev-Server Base Url: not defined yet
+- Production-Server Base Url: not dfined yet
+
+Go ahead to [Reference](https://v1pothappiplants.docs.apiary.io/#reference/0/pots) section to read detail about each of the end-point available.
+
+
+**Important Notes**:
+
+- We use *UUID (Universal Unique Identifier)* for the primary key `id` instead of serial generated value.
+
+- All routes support query parameters to refine the responses.
+
+
+**Availabel query parameter**:
+
+- **[include](http://jsonapi.org/format/#fetching-relationships)**
+
+  to include relation use include=:relation_name_separated_by_comma For example this will include users to pots relation
+
+  `GET /pots?include=users`
+
+  <br><hr/>
+
+- **[fields](http://jsonapi.org/format/#fetching-sparse-fieldsets)**
+
+  Sparse fieldset use fields[:resourcename]=:fied_names_separated_by_dot parameter
+
+  `GET /pots?include=users&fields[pots]=soil_sensor_value, plant_length`
+
+  <br><hr/>
+
+- **[sort](http://jsonapi.org/format/#fetching-sorting)**
+
+  Sorting support requests to sort the primary data with a sort query parameter. The value for sort are represent sort fields.
+
+  `GET /pots?sort=created_at`
+
+  **Sort Order**
+
+  - **Ascendant**
+
+    `GET /pots?sort=plant_length`
+
+  - **Descendant**
+
+     `GET /pots?sort=-plant_length`
+
+     *Put minus operator as a prefix of field used to request sorting.*
+
+  - **Multiple Sort Attribute**
+
+     `GET /pots?sort=plant_length, soil_sensor_value`
+
+     *An endpoint support multiple sort fields by allowing comma-separated (U+002C COMMA, “,”) sort fields. Sort fields SHOULD be applied in the order specified.*
+
+  - **Sort by Resource**
+
+     `GET /pots?sort=container.id`
+
+     *dot-separated (U+002E FULL-STOP, “.”) sort fields be used to request sorting based upon resource relationship attributes. For example, a sort field of users.plant_length could be used to request that the primary data be sorted based upon the name attribute of the author relationship.*
+
+   <br><hr/>
+
+- **[page](http://jsonapi.org/format/#fetching-pagination)**
+
+  *Pagination use offset strategy, query parameter*
+
+  `GET /pots?page[offset]=1&page[limit]=100`
+
+   <br><hr/>
+
+- **[filter](http://jsonapi.org/format/#fetching-filtering)**
+
+  `GET /pots?filter[:attribute_name][:operator]=:value`
+
+
+  ##Filter Attribute
+
+  - Single attribute
+
+      `filter[plant_length][gt]=25`
+      this will filter pots by plant_length >= 25, `gt` means `greater than` see section about `Filter Operator Condition`.
+
+
+  - Concatenation attribute
+
+      `filter[plant_length,last_name][gt]=25`
+
+
+  ##Filter relation
+
+  To filter by relations u must supply include relation. For example in this case we will include relation `users` filter by `users.first_name` like `john`:
+
+  `/pots?include=users&filter[users.first_name][like]=%john`
+
+
+  ##Filter Operator Condition
+
+  **Like**
+
+  `filter[:attribute_name][like]=:value`
+
+  **Not Like**
+
+  `filter[:attribute_name][!like]=:value`
+
+  **Equal**
+
+  `filter[:attribute_name][is]=:value`
+
+  **Not Equal**
+
+  `filter[:attribute_name][!is]=:value`
+
+  **Between**
+
+  `filter[:attribute_name][between]=:value_start,:value_end`
+
+  **Not Between**
+
+  `filter[:attribute_name][!between]=:value_start,:value_end`
+
+  **Greater Than**
+
+  `filter[:attribute_name][gt]=:value`
+
+  **Greater Than or Equal**
+
+  `filter[:attribute_name][gte]=:value`
+
+  **Less Than**
+
+  `filter[:attribute_name][lt]=:value`
+
+  **Lesser Than or Equal**
+
+  `filter[:attribute_name][lte]=:value`
+
+  **In**
+
+  `filter[:attribute_name][in]=:value1,:value2,:value3`
+
+  **Not In**
+
+  `filter[:attribute_name][!in]=:value1,:value2,:value3`
+
+
+  <br><hr/>
+
+  Here is the lists of available attributes for each resources. You might need to add prefix resource-name for a usage through included resources. For example you are including `pots` resource when displaying `pots` and you want filter by `first_name`, your filter attribute will be `users.first_name`
+
+- **users**
+
+    - id
+    - plant_length
+    - soil_sensor_value
+    - lamp_status
+    - created_at
+    - updated_at
+
+## Pots [/pots]
+
+### Get list of Pot [GET /pots]
+
++ Request (application/vnd.api+json)
+    + Headers
+
+            Authorization: Bearer 71260693-8eb9-45d8-8781-f60fc32a1dff
+
++ Response 200 (application/vnd.api+json)
+
+    + Attributes
+        + meta (object)
+            + count: 2 (number)
+            + total: 2 (number)
+        + data (array)
+            + (PotResponse)
+                - id: `27a40760-12fa-4c60-95a8-4045d834ab14`
+                - type: `pots`
+                + links (object)
+                    + self: `http://localhost:3000/api/v1/pots/27a40760-12fa-4c60-95a8-4045d834ab14` (string)
+
+            + (PotResponse)
+                - id: `27a40760-12fa-4c60-95a8-4045d834ab14`
+                - type: `pots`
+                - attributes
+                    - plant_length: 4
+                + links (object)
+                    + self: `http://localhost:3000/api/v1/pots/27a40760-12fa-4c60-95a8-4045d834ab14` (string)
+
+        + links (object)
+            + first: `http://localhost:3000/api/v1/pots?filter[plant_length][gt]=15&page[limit]=10&page[offset]=0` (string)
+            + last: `http://localhost:3000/api/v1/pots?filter[plant_length][gt]=15&page[limit]=10&page[offset]=0` (string)
+            + next: null (nullable)
+            + prev: null (nullable)
+
+### Get one Pot [GET /pots/{id}]
+
++ Parameters
+    + id: `27a40760-12fa-4c60-95a8-4045d834ab14` (number, required) - Pot id (uuid)
+
++ Request (application/vnd.api+json)
+    + Headers
+
+            Authorization: Bearer 71260693-8eb9-45d8-8781-f60fc32a1dff
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (PotResponse)
+
++ Response 401 (application/vnd.api+json)
+    + Attributes
+        + errors (Error)
+
+### Create Pot [POST /pots]
+
+
++ Request (application/vnd.api+json)
+    + Headers
+
+            Authorization: Bearer 71260693-8eb9-45d8-8781-f60fc32a1dff
+
+    + Attributes
+        + data (Pot)
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (PotResponse)
+
++ Response 401 (application/vnd.api+json)
+    + Attributes
+        + errors (Error)
+
++ Response 404 (application/vnd.api+json)
+    + Attributes
+        + errors (Error)
+
+
+### Update Pot [PATCH /pots/{id}]
+
++ Parameters
+    + id: `1` (number, required) - user id
+
++ Request (application/vnd.api+json)
+    + Headers
+
+            Authorization: Bearer 71260693-8eb9-45d8-8781-f60fc32a1dff
+
+    + Attributes
+        + data (Pot)
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (PotResponse)
+
++ Response 401 (application/vnd.api+json)
+    + Attributes
+        + errors (Error)
+
++ Response 404 (application/vnd.api+json)
+    + Attributes
+        + errors (Error)
+
+## Data Structures
+
+### PotResponse
+- id: `27a40760-12fa-4c60-95a8-4045d834ab14`
+- type: `pots`
+- attributes (Pot)
+- links (object)
+    - self: `http://localhost:3000/api/v1/pots/27a40760-12fa-4c60-95a8-4045d834ab14` (string)
+
+### Pot
+- plant_length: 15 (number)
+- soil_sensor_value: 0.5 (number)
+- lamp_status: 1 (number)
+- created_at: `2018/01/01 00:00:00` (string)
+- updated_at: `2018/01/01 00:00:00` (string)
+
+### Error
+- links (string)
+- status (enum[number])
+    - 404
+    - 401
+    - 400
+    - 403
++ title (string)
++ detail (string)
