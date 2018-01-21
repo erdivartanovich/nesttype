@@ -22,14 +22,25 @@ Prerequisites:
 
 Steps:
 - Create new MYSQL database e.g `hapiplant`
-- Configure `ormconfig.json` file in the project roo directory, if the file doesn't exist you can copy `ormconfig.json.example`
-  Change `username`, `password`, and `database` according to your local MSQL configuration.
+- Configure `ormconfig.json` file in the project root directory, if the file doesn't exist you can copy `ormconfig.json.example`
+  Change `username`, `password`, and `database` according to your local MYSQL configuration.
 
+- Install Typescript and TypeORM
+
+```sh
+  $ npm install typescript, typeorm -g
+```
+
+  This command will install all project dependecies, and install `typescript` compiler and `typeorm cli` in the global environment (OS)
+
+- Install The Project Package
+
+  From the project root directory run this command in the terminal:
+  
 ```sh
   $ npm install
 ```
 
-This command will install all project dependecies, and install `typescript` compiler and `typeorm cli` in the global environment (OS)
 
 ## Run Local Development Server
 
