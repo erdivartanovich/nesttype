@@ -6,19 +6,31 @@ import { plainToClass } from 'class-transformer';
 @Pipe()
 export class ValidationPipe implements PipeTransform<any> {
     async transform(value, metadata: ArgumentMetadata) {
+      var payload;
       const { metatype } = metadata;
       if (!metatype || !this.toValidate(metatype)) {
           return value;
       }
-      const object = plainToClass(metatype, value);
+      try {
+        payload = value['data']['attributes'];
+      } catch (error) {
+        throw new ResponseException("payload invalid", "validation error", HttpStatus.BAD_REQUEST);
+      }
+      if (!payload) {
+        throw new ResponseException("payload invalid", "validation error", HttpStatus.BAD_REQUEST);
+      }
+
+      const object = plainToClass(metatype, payload);
       const errors = await validate(object, { skipMissingProperties: true });
       const constraints = errors.map(e => {
         return e.constraints
       });
+      
       if (errors.length > 0) {
         throw new ResponseException(constraints, "validation error", HttpStatus.BAD_REQUEST);
       }
-      return value;
+
+      return payload;
     }
 
     private toValidate(metatype): boolean {
