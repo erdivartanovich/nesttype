@@ -1,8 +1,8 @@
 {
-  "name": "nest-typescript-starter",
-  "version": "1.0.0",
-  "description": "Nest TypeScript starter repository",
-  "license": "MIT",
+  "name": "hapiplants-backend-v1",
+  "version": "0.3.0",
+  "description": "Hapi plants backend repository",
+  "license": "",
   "scripts": {
     "start": "node index.js",
     "start:watch": "nodemon",
@@ -11,26 +11,27 @@
     "seed": "tsc && node dist/resources/database/seeders/database.seeder.js"
   },
   "dependencies": {
-    "@nestjs/common": "^4.5.0",
-    "@nestjs/core": "^4.5.0",
-    "@nestjs/microservices": "^4.5.0",
-    "@nestjs/testing": "^4.5.0",
+    "@nestjs/common": "^4.5.9",
+    "@nestjs/core": "^4.5.10",
+    "@nestjs/microservices": "^4.5.8",
+    "@nestjs/testing": "^4.5.5",
     "@nestjs/typeorm": "^2.0.0",
-    "@nestjs/websockets": "^4.5.0",
+    "@nestjs/websockets": "^4.5.8",
     "class-transformer": "^0.1.8",
     "class-validator": "^0.7.3",
     "mysql": "^2.14.1",
+    "pubnub": "^4.20.0",
     "redis": "^2.7.1",
-    "reflect-metadata": "^0.1.10",
-    "rxjs": "^5.4.3",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^5.5.6",
     "typeorm": "^0.2.0-alpha.15",
     "typescript": "^2.6.2"
   },
   "devDependencies": {
     "@types/chance": "^0.7.36",
-    "@types/node": "^8.0.28",
+    "@types/node": "^9.3.0",
     "chance": "^1.0.13",
-    "nodemon": "^1.12.1",
-    "ts-node": "^3.3.0"
+    "nodemon": "^1.14.11",
+    "ts-node": "^4.1.0"
   }
 }

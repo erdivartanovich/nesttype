@@ -17,6 +17,7 @@ export async function databaseConnection() {
             options = Object.assign(options, {
                 synchronize: true,
                 namingStrategy: new NamingStrategy(),
+                subscribers: [__dirname + '/../../**/*.subscriber{.ts,.js}']
             });
 
             return createConnection(options);

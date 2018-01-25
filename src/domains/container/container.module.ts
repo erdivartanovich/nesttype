@@ -10,6 +10,7 @@ import { ContainerController } from './container.controller';
     ...containerProviders,
     ContainerService
   ],
+  exports: [...containerProviders],
   controllers: [ContainerController],
 })
 export class ContainerModule {}
