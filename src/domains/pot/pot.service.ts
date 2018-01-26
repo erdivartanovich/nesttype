@@ -35,9 +35,9 @@ export class PotService {
   async update(id: string, potDto: PotDto) {
     return await this.potRepository.findOneOrFail(id)
       .then(pot => {
-        if (potDto.soil_sensor_value) pot.soil_sensor_value = potDto.soil_sensor_value; 
-        if (potDto.plant_length) pot.plant_length = potDto.plant_length; 
-        if (potDto.lamp_status) pot.lamp_status = potDto.lamp_status; 
+        pot.soil_sensor_value = potDto.soil_sensor_value || pot.soil_sensor_value; 
+        pot.plant_length = potDto.plant_length || pot.plant_length; 
+        pot.lamp_status = potDto.lamp_status || 0; 
         return this.potRepository.save(pot);
       })
       .catch(error => {
