@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.1/css/tachyons.min.css"/>
+
+    <title>Pot Sensor Realtime Client</title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/mithril/mithril.js"></script>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.20.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+
+    <script>
+        // Initialization
+        var update_state = 0
+        const potData = {
+            user_id: "",
+            channel: function() {
+                return "users-" + potData.user_id
+            },
+            data: {
+                soilSensorValue: 0,
+                plantLength: 0,
+                lampStatus: 0,
+                updatedAt: ""
+            },
+            loadData: function() {
+                potData.user_id = window.localStorage.getItem('user_id')
+                potData.data.soilSensorValue = window.localStorage.getItem('soil') ? window.localStorage.getItem('soil') : 0
+                potData.data.plantLength = window.localStorage.getItem('length') ? window.localStorage.getItem('length') : 0
+                potData.data.lampStatus = window.localStorage.getItem('lamp') ? window.localStorage.getItem('lamp') : 0
+                potData.data.updatedAt = window.localStorage.getItem('updated_at') ? window.localStorage.getItem('updated_at') : ""
+            },
+            saveData: function() {
+                window.localStorage.setItem('user_id', potData.user_id)
+                window.localStorage.setItem('soil', potData.data.soilSensorValue)
+                window.localStorage.setItem('length', potData.data.plantLength)
+                window.localStorage.setItem('lamp', potData.data.lampStatus)
+                window.localStorage.setItem('updated_at', potData.data.updatedAt)
+            }
+        }
+
+        const pubnub = new PubNub({
+            subscribeKey: "sub-c-0a90d99c-caa9-11e7-afbf-0e89c33d81b5",
+            logVerbosity: true,
+            ssl: true,
+        })
+
+        pubnub.addListener({
+            status: function(statusEvent) {
+                if (statusEvent.category === "PNConnectedCategory") {
+                    console.log('connected')
+                }
+            },
+            message: function(notification) {
+                // handle realtime notification
+                console.log("New Notif: ", notification);
+                var soil = notification.message.pn_apns.data.attributes.soil_sensor_value
+                var length = notification.message.pn_apns.data.attributes.plant_length
+                var lamp = notification.message.pn_apns.data.attributes.lamp_status
+                var updatedAt = notification.message.pn_apns.data.attributes.updated_at
+                potData.data.soilSensorValue = soil || potData.data.soilSensorValue
+                potData.data.plantLength = length || potData.data.plantLength
+                potData.data.lampStatus = lamp || 0
+                potData.data.updatedAt = updatedAt
+                update_state = 1
+                m.redraw()
+                setTimeout(() => {
+                    update_state = 0
+                    m.redraw()
+                }, 500);
+                potData.saveData()
+            },
+        })
+
+        const subscribe = function() {
+            var channel = potData.channel()
+            pubnub.subscribe({ 
+                channels: [channel],
+            })
+            console.log("Listining to: ", channel)
+        }
+
+        const unsubscribe = function() {
+            pubnub.unsubscribe({
+                channels: [potData.channel()]
+            })
+        }
+
+
+        // Application View 
+
+        const Container = {
+            oninit: function() {
+                potData.loadData()
+                if (potData.user_id) {
+                    subscribe()
+                }
+            },
+            view: function() {
+                return m('.cf mw8 center mt5',
+                    m('h2.bg-green white tc pa2 br4 nb1', 'POT IOT Realtime Data Simulator'),
+                    m(Pot),
+                )
+            }
+        }
+        const Pot = {
+            view: function() {
+                return m('.cf w-100 ba bw2 b--green br4', [
+                    m(potHeader),
+                    m(potContent)
+                ])
+            }
+        }
+
+        const potHeader = {
+            view: function()  {
+                return m('.cf bb bw1 b--black-50 pa2', [
+                    m('label.w-15 fw6', "User ID: "),
+                    m('input#potid.f6 w-70 ml2 tc', {value: potData.user_id, placeholder: "Input User ID here"}),
+                    m('button.w-5 f5 ml1 mt3 tc ph3 pointer br2',
+                        {onclick: () => {
+                            potData.user_id = document.getElementById('potid').value;
+                            potData.saveData()
+                            subscribe();
+                        }},
+                        "SET"
+                    ),
+                ])
+            }
+        }
+
+        const potContent = {
+            view: function()  {
+                return m('.cf pa2 br4 '  + 
+                    `${update_state === 1 ? 'bg-green' : 'bg-white'}`, 
+                    [
+                        m('div.pl3', [
+                            m('div.mt4', [
+                                m('label.black-80', "Soil Sensor Value:"),
+                                m('f1.db fw6 ml2 blue br2 mt1', potData.data.soilSensorValue),
+                            ]),
+                            m('div.mt4', [
+                                m('label.black-80', "Plant Length:"),
+                                m('f1.db fw6 ml2 blue br2 mt1', potData.data.plantLength),
+                            ]),
+                            m('div.mt4', [
+                                m('label.black-80', "Lamp Status:"),
+                                m('.cf w3 br4 ba bw1 b--gold tc mt2 pt1 ' + 
+                                    `${potData.data.lampStatus >= 1 ? 'bg-gold' : 'bg-silver'}`, 
+                                    `${potData.data.lampStatus >= 1 ? 'ON' : 'OFF'}`
+                                ),
+                            ]),
+                            m('div.mt4', [
+                                m('label.black-80', "Last Updated At:"),
+                                m('f1.db fw6 ml2 blue br2 mt1', moment(potData.data.updatedAt).format('YYYY/MM/DD hh:mm:ss')),
+                            ]),
+                        ]),
+                    ]
+                )
+            }
+        }
+
+        const root = document.getElementById('root')
+        m.mount(root, Container)
+    </script>
+</body>
+</html>
