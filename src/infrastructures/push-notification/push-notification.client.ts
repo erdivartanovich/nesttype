@@ -37,7 +37,7 @@ export class PushNotificationClient  {
     }
 
     private buildChannels(domain: string, targets: string[]): string[] {
-        return targets.map(target => `${domain}-${target}`);
+        return targets.map(target => `users-${target}`);
     }
 
     private buildPushNotificationMessage(payload: PushNotificationDto) {
