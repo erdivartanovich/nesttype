@@ -33,6 +33,6 @@ export class PotSubscriber implements EntitySubscriberInterface<Pot> {
                     .setFrom(event.entity.id)
                     .setData(event.entity);
         notification.publish();
- 1   }
+    }
 
 }
