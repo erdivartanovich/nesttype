@@ -1,8 +1,7 @@
-import { IsString, IsNumber, IsInt, IsNotEmpty, IsDefined} from 'class-validator';
-export class PotDto {
-    
-    @IsString()
-    readonly id: string;
+import { IsString, IsNumber, IsInt, IsNotEmpty, IsDefined } from 'class-validator';
+import { BaseDto } from '../../base/contracts/base.dto';
+import { PotInterface } from './pot.interface';
+export class PotDto extends BaseDto implements PotInterface{
 
     @IsString()
     @IsNotEmpty()

@@ -16,7 +16,7 @@ export class ValidationPipe implements PipeTransform<any> {
       } catch (error) {
         throw new ResponseException("payload invalid", "validation error", HttpStatus.BAD_REQUEST);
       }
-      if (!payload) {
+      if (!Object.keys(payload).length) {
         throw new ResponseException("payload invalid", "validation error", HttpStatus.BAD_REQUEST);
       }
 

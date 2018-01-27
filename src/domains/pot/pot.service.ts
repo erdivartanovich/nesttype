@@ -1,43 +1,32 @@
 import { Component, Inject, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { BaseService } from '../base/base.service';
-import { Pot } from './pot.entity';
+import { PotInterface } from './contracts/pot.interface';
+import { UserInterface } from '../user/contracts/user.interface';
+import { BaseServiceInterface } from '../base/contracts/base-service.interface';
 import { PotDto } from './contracts/pot.dto';
+import { BaseService } from '../base/base.service';
 import { Container } from '../container/container.entity';
-import { User } from '../user/user.entity';
 import { isString } from 'util';
+import { PotServiceInterface } from './contracts/pot-service.interface';
+import { BaseEntityInterface } from '../base/contracts/base-entity.interface';
 
 @Component()
-  export class PotService extends BaseService {
+  export class PotService extends BaseService implements PotServiceInterface{
   constructor(
     @Inject('PotRepositoryToken')
-    public readonly repository: Repository<Pot>,
-    @Inject('ContainerRepositoryToken')
-    private readonly containerRepository: Repository<Container>,
+    public readonly repository: Repository<PotInterface>,
   ) {
     super();
   }
 
-  async findContainerIdByPotID(potID: string): Promise<string> {
-    return await this.repository.findOne(potID, { relations: ["container"] })
-      .then(pot => {
-        return pot.container.id;
-      })
+  async findUser(id: string): Promise<BaseEntityInterface> {
+    return await this.findContainer(id)
+      .then(container => this.repository.manager.findOne('container', container.id, {relations: ['user']}))
+      .then(container => container['user']);
   }
 
-  async findUserByContainerId(containerID: string): Promise<Object> {
-    return await this.containerRepository.findOne(containerID, { relations: ["user"] })
-      .then(user => {
-        return user;
-      })
-  }
-
-  async findUserByPotID(potID: string, returning: string | User = 'id'): Promise<string | User> {
-    return await this.findContainerIdByPotID(potID)
-      .then(container_id => this.findUserByContainerId(container_id))
-      .then(user => {
-         return isString(returning) ? user[returning] : user;
-      })
+  async findContainer(id: string): Promise<BaseEntityInterface> {
+    return await this.findRelationshipEntity(id, 'container')
   }
 
 }

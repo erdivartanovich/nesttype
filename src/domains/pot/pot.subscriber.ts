@@ -20,10 +20,14 @@ export class PotSubscriber implements EntitySubscriberInterface<Pot> {
      * Called after pot update.
      */
     async afterUpdate(event: UpdateEvent<Pot>) {
-        var user_id: any;
+        var user, user_id: any;
         var notification: Notification;
         this.potService = AppContainer.getService('PotService');
-        user_id = await this.potService.findUserByPotID(event.entity.id);
+        user = await this.potService.findUser(event.entity.id);
+        
+        if (!user) return;
+        user_id = user.id;
+        
         notification = new Notification(Publisher);
         notification.setTitle('Receive notification from Pot')
                     .setMessage('Pot sensor data updated')

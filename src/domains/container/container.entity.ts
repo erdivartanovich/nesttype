@@ -8,8 +8,8 @@ import {
     OneToMany, 
 } from "typeorm";
 
-import {Pot} from "../pot/pot.entity";
 import {User} from "../user/user.entity";
+import {Pot} from "../pot/pot.entity";
 
 @Entity()
 export class Container {
@@ -36,5 +36,4 @@ export class Container {
 
     @ManyToOne(type => User, user => user.containers)
     user: User;
-
 }

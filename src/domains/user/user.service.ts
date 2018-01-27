@@ -1,15 +1,17 @@
 import { Component, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { UserInterface } from './contracts/user.interface';
+import { BaseService } from '../base/base.service';
+import { BaseServiceInterface } from '../base/contracts/base-service.interface';
+import { UserServiceInterface } from './contracts/user-service.interface';
 
 @Component()
-export class UserService {
+export class UserService extends BaseService implements UserServiceInterface{
   constructor(
     @Inject('UserRepositoryToken')
-    private readonly userRepository: Repository<User>,
-  ) {}
-
-  async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+    public readonly repository: Repository<UserInterface>,
+  ) {
+    super()
   }
+
 }

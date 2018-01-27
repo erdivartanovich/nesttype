@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from '../domains/user/user.module';
 import { PotModule } from '../domains/pot/pot.module';
+import { ContainerModule } from '../domains/container/container.module';
 
 /**
  * Application IOC container
@@ -11,7 +12,8 @@ import { PotModule } from '../domains/pot/pot.module';
 @Module({
   modules: [
     UserModule, 
-    PotModule
+    ContainerModule,
+    PotModule,
   ],
 })
 export class ApplicationModule {}

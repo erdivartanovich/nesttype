@@ -1,15 +1,16 @@
 import { Component, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Container } from './container.entity';
+import { BaseService } from '../base/base.service';
+import { ContainerServiceInterface } from './contracts/container.service.interface';
+import { BaseEntityInterface } from '../base/contracts/base-entity.interface';
 
 @Component()
-export class ContainerService {
+export class ContainerService extends BaseService implements ContainerServiceInterface {
   constructor(
     @Inject('ContainerRepositoryToken')
-    private readonly containerRepository: Repository<Container>,
-  ) {}
-
-  async findAll(): Promise<Container[]> {
-    return await this.containerRepository.find();
+    public readonly repository: Repository<BaseEntityInterface>,
+  ) {
+    super()
   }
+
 }
