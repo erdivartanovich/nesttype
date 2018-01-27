@@ -1,8 +1,8 @@
 import { Get, Post, Patch, Body, Param, Controller } from '@nestjs/common';
 import { v1BaseUrl } from '../../config/app.';
 import { PotService } from './pot.service';
-import { Pot } from './pot.entity';
-import { PotDto } from './dto/pot.dto';
+import { PotDto } from './contracts/pot.dto';
+import { PotInterface } from './contracts/pot.interface';
 
 /**
  * Pot controller
@@ -16,24 +16,24 @@ export class PotController {
     constructor(private readonly potService: PotService) {}
 
 	@Get()
-	findAll(): Promise<Pot[]> {
-        return this.potService.findAll();
+	findAll(): Promise<PotInterface[]> {
+        return this.potService.repository.find();
     }
 
     @Get(':id')
-	find(@Param() params): Promise<Pot> {
+	find(@Param() params): Promise<PotInterface> {
         var id = params.id;
-        return this.potService.find(id);
+        return this.potService.repository.findOne(id);
     }
 
      @Post()
-     create(@Body() createPotDto: PotDto): Promise<Pot>|Object {
+     create(@Body() createPotDto: PotDto): Promise<PotInterface>|Object {
         return this.potService.create(createPotDto);
      }
 
      @Patch(':id')
-     update(@Param() params, @Body() updatePotDto: PotDto): Promise<Pot>|Object {
-         var id = params.id;
+     update(@Param() params, @Body() updatePotDto: PotDto): Promise<PotInterface>|Object {
+        var id = params.id;
         return this.potService.update(id, updatePotDto);
      }
 

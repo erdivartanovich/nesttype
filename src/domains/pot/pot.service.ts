@@ -1,52 +1,25 @@
 import { Component, Inject, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { BaseService } from '../base/base.service';
 import { Pot } from './pot.entity';
-import { PotDto } from './dto/pot.dto';
+import { PotDto } from './contracts/pot.dto';
 import { Container } from '../container/container.entity';
 import { User } from '../user/user.entity';
-import { ResponseException } from '../../commons/exception/response.exception';
 import { isString } from 'util';
 
 @Component()
-export class PotService {
+  export class PotService extends BaseService {
   constructor(
     @Inject('PotRepositoryToken')
-    private readonly potRepository: Repository<Pot>,
+    public readonly repository: Repository<Pot>,
     @Inject('ContainerRepositoryToken')
     private readonly containerRepository: Repository<Container>,
-  ) {}
-
-  async findAll(): Promise<Pot[]> {
-    return await this.potRepository.find();
-  }
-
-  async find(id: string): Promise<Pot> {
-    return await this.potRepository.findOne(id);
-  }
-
-  async create(potDto: PotDto) {
-    const pot = new Pot();
-    if (potDto.soil_sensor_value) pot.soil_sensor_value = potDto.soil_sensor_value; 
-    if (potDto.plant_length) pot.plant_length = potDto.plant_length; 
-    if (potDto.lamp_status) pot.lamp_status = potDto.lamp_status; 
-    return await this.potRepository.save(pot);
-  }
-
-  async update(id: string, potDto: PotDto) {
-    return await this.potRepository.findOneOrFail(id)
-      .then(pot => {
-        pot.soil_sensor_value = potDto.soil_sensor_value || pot.soil_sensor_value; 
-        pot.plant_length = potDto.plant_length || pot.plant_length; 
-        pot.lamp_status = potDto.lamp_status || 0; 
-        return this.potRepository.save(pot);
-      })
-      .catch(error => {
-        return error;
-      });
+  ) {
+    super();
   }
 
   async findContainerIdByPotID(potID: string): Promise<string> {
-    return await this.potRepository.findOne(potID, { relations: ["container"] })
+    return await this.repository.findOne(potID, { relations: ["container"] })
       .then(pot => {
         return pot.container.id;
       })

@@ -7,11 +7,17 @@ import {
     ManyToOne, 
 } from "typeorm";
 
-import { BaseEntity } from '../base.entity';
-import {Container} from '../container/container.entity';
+import { PotInterface } from './contracts/pot.interface';
+import { BaseEntity } from '../base/base.entity';
+import { Container } from '../container/container.entity';
 
 @Entity()
-export class Pot extends BaseEntity {
+export class Pot extends BaseEntity implements PotInterface {
+
+    @Column({
+        default: ""
+    })
+    description: string;
 
     @Column({
         type: "float",
