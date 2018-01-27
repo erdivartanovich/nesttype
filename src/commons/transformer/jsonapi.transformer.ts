@@ -3,10 +3,10 @@ import { ResponseException } from '../exception/response.exception';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { isArray } from 'util';
-import { BaseEntity } from '../../domains/base.entity';
+import { BaseEntity } from '../../domains/base/base.entity';
 
 @Interceptor()
-export class JsonapiTransformInterceptor implements NestInterceptor {
+export class JsonApiTransformer implements NestInterceptor {
   intercept(dataOrRequest, context: ExecutionContext, stream$: Observable<any>): Observable<any> {
     return stream$.map((data) => {
       var dataResponse, count: number=1, total: number=1;
@@ -32,7 +32,7 @@ export class JsonapiTransformInterceptor implements NestInterceptor {
       dataResponse = data || [];
       
       if ( dataResponse.constructor.prototype instanceof Error ) {
-        throw new ResponseException(data.message, data.name, HttpStatus.NOT_FOUND);
+        throw new ResponseException(dataResponse.message, dataResponse.name, HttpStatus.INTERNAL_SERVER_ERROR);
       }
 
       dataResponse = isArray(data) ? data.map(item => buildData(item)) : buildData(data);
