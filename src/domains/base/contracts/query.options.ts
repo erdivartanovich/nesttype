@@ -7,7 +7,7 @@ export interface QueryOptions {
 export const queryParams = function(query): QueryOptions {
     const relations = query.include ? query.include.split(",") : null;
     const filter = query.filter ? buildFilter(query.filter) : null;
-    const {offset, limit} = query.page;
+    const {offset, limit} = query.page ? query.page : {offset: 0, limit: 0};
     const params: QueryOptions = {
         relations: relations,
         filter: filter,
