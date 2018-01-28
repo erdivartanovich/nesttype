@@ -1,9 +1,10 @@
-import { Get, Post, Patch, Body, Param, Controller } from '@nestjs/common';
+import { Get, Post, Patch, Body, Param, Controller, Query } from '@nestjs/common';
 import { v1BaseUrl } from '../../config/app.';
 import { BaseEntityInterface } from '../base/contracts/base-entity.interface';
 import { UserService } from './user.service';
 import { createUserDto } from './contracts/create-user.dto';
 import { updateUserDto } from './contracts/update-user.dto';
+import { queryParams } from '../base/contracts/query.options';
 /**
  * User controller
  * the prefix is defined in domain constant
@@ -15,8 +16,9 @@ const baseURL = v1BaseUrl(domain);
 export class UserController {
     constructor(private readonly userService: UserService) {}
 	@Get()
-	findAll(): Promise<BaseEntityInterface[]> {
-        return this.userService.repository.find();
+	findAll(@Query() query): Promise<BaseEntityInterface[]> {
+        const options = queryParams(query);
+        return this.userService.find(options);
     }
 
     @Get(':id')

@@ -3,7 +3,7 @@ import { v1BaseUrl } from '../../config/app.';
 import { BaseEntityInterface } from '../base/contracts/base-entity.interface';
 import { ContainerDto } from './contracts/container.dto';
 import { ContainerService } from './container.service';
-import { queryParams } from '../../commons/transformer/query.parameter';
+import { queryParams } from '../base/contracts/query.options';
 
 /**
  * Container controller

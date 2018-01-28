@@ -3,12 +3,12 @@ import { BaseServiceInterface } from './contracts/base-service.interface';
 import { BaseRepositoryInterface } from './contracts/base-repository.interface';
 import { BaseEntityInterface } from './contracts/base-entity.interface';
 import { ResponseException } from '../../commons/exception/response.exception';
-import { FindManyOptions } from 'typeorm/find-options/FindManyOptions';
-import { FindOneOptions } from 'typeorm/find-options/FindOneOptions';
 import { error } from 'util';
 import { QueryOptions } from './contracts/query.options';
 import { Repository } from 'typeorm/repository/Repository';
 import { BaseEntity } from './base.entity';
+import { QueryBuilder } from 'typeorm/query-builder/QueryBuilder';
+import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
 
 export class BaseService implements BaseServiceInterface {
 
@@ -17,17 +17,19 @@ export class BaseService implements BaseServiceInterface {
     async find(options?: QueryOptions): Promise<BaseEntityInterface[]> {
         const {relations, filter} = options;
 
-        return await this.repository.find({relations: relations})
-        .catch(error => error);
+        if (!filter) {
+            return await this.repository.find({relations: relations})
+            .catch(error => error);
+        }
+        return await this.query(options)
+            .catch(error => error);
     }
 
     async findOne(id: string, options?: QueryOptions): Promise<any> {
-        const {relations, filter} = options;
+        const {relations} = options;
 
-        if (!filter) {
-            return await this.repository.findOne(id, {relations: relations})
-            .catch(error => error);
-        }
+        return await this.repository.findOne(id, {relations: relations})
+        .catch(error => error);
     }
     
     async create(dto: Object): Promise<BaseEntityInterface> {
@@ -59,4 +61,26 @@ export class BaseService implements BaseServiceInterface {
           .then(entity => entity[relations])
     }
     
+    async query(options: QueryOptions) {
+        var builder: SelectQueryBuilder<BaseEntityInterface>;
+        const {relations, filter} = options;
+        var table_name = this.repository.target['name'];
+        table_name =  table_name ? table_name.toLowerCase() : "a";
+        builder = await this.repository.createQueryBuilder(table_name)
+        
+        if (relations) {
+            relations.map(rel => {
+                builder.leftJoinAndSelect(table_name+"."+rel, rel)
+            });
+        }
+        console.log(filter)
+        filter.map((condition, index) => {
+            index === 0 ?
+                builder.where(condition):
+                builder.andWhere(condition)
+        })
+        // builder.skip(5)
+        // builder.take(5)
+        return builder.getMany()
+    }
 }
