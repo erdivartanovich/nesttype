@@ -1,6 +1,6 @@
 export interface QueryOptions {
-    relations: Array<string>,
-    filter: Array<string>,
+    relations: string[],
+    filter: string[],
     pagination: {offset: number, limit: number}
 }
 
@@ -16,7 +16,7 @@ export const queryParams = function(query): QueryOptions {
     return params;
 }
 
-function buildFilter(raw: Object): Array<string> {
+function buildFilter(raw: Object): string[] {
     const filter = [];
     Object.keys(raw).map((key, index) => {
         let operator = Object.keys(raw[key])[0];

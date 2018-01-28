@@ -1,9 +1,9 @@
-import { BaseRepositoryInterface } from './base-repository.interface';
 import { BaseEntityInterface } from './base-entity.interface';
+import { Repository } from 'typeorm/repository/Repository';
 
 export interface BaseServiceInterface {
     
-    repository: BaseRepositoryInterface;
+    repository: Repository<BaseEntityInterface>;
 
     find(options?: Object): Promise<BaseEntityInterface[]>;
 

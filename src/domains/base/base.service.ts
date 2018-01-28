@@ -1,16 +1,14 @@
+import { error } from 'util';
 import { HttpStatus } from '@nestjs/common';
 import { BaseServiceInterface } from './contracts/base-service.interface';
-import { BaseRepositoryInterface } from './contracts/base-repository.interface';
 import { BaseEntityInterface } from './contracts/base-entity.interface';
 import { ResponseException } from '../../commons/exception/response.exception';
-import { error } from 'util';
 import { QueryOptions } from './contracts/query.options';
 import { Repository } from 'typeorm/repository/Repository';
-import { BaseEntity } from './base.entity';
 import { QueryBuilder } from 'typeorm/query-builder/QueryBuilder';
 import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
 
-export class BaseService implements BaseServiceInterface {
+export abstract class BaseService implements BaseServiceInterface {
 
     public repository: Repository<BaseEntityInterface>;
 
@@ -61,21 +59,25 @@ export class BaseService implements BaseServiceInterface {
           .then(entity => entity[relations]);
     }
     
-    async query(options: QueryOptions) {
+
+    
+    async query(options: QueryOptions): Promise<BaseEntityInterface[]> {
 
         var builder: SelectQueryBuilder<BaseEntityInterface>;
-        var table_name = this.repository.target['name'];
+        var tableAlias = this.repository.target['name'];
         const {relations, filter, pagination} = options;
         
-        table_name =  table_name ? table_name.toLowerCase() : "a";
-        builder = await this.repository.createQueryBuilder(table_name);
+        tableAlias =  tableAlias ? tableAlias.toLowerCase() : "a";
+        builder = await this.repository.createQueryBuilder(tableAlias);
         
+        // apply relationship if exist in query parameter
         if (relations) {
             relations.map(rel => {
-                builder.leftJoinAndSelect(table_name+"."+rel, rel)
+                builder.leftJoinAndSelect(tableAlias+"."+rel, rel)
             });
         }
         
+        // apply filter if exist in query parameter
         filter.map((condition, index) => {
             if (condition) {
                 index === 0 ?
@@ -84,6 +86,7 @@ export class BaseService implements BaseServiceInterface {
             };
         })
         
+        // apply pagination
         builder.skip(pagination.offset);
         builder.take(pagination.limit);
         
