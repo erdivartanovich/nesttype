@@ -61,7 +61,7 @@ export abstract class BaseService implements BaseServiceInterface {
     
 
     
-    async query(options: QueryOptions): Promise<BaseEntityInterface[]> {
+    async query(options: QueryOptions): Promise<any> {
 
         var builder: SelectQueryBuilder<BaseEntityInterface>;
         var tableAlias = this.repository.target['name'];
@@ -91,5 +91,6 @@ export abstract class BaseService implements BaseServiceInterface {
         builder.take(pagination.limit);
         
         return builder.getMany();
+        // return builder.getSql();
     }
 }
