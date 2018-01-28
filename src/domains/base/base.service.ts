@@ -15,10 +15,10 @@ export class BaseService implements BaseServiceInterface {
     public repository: Repository<BaseEntityInterface>;
 
     async find(options?: QueryOptions): Promise<BaseEntityInterface[]> {
-        const {relations, filter} = options;
+        const {relations, filter, pagination} = options;
 
         if (!filter) {
-            return await this.repository.find({relations: relations})
+            return await this.repository.find({relations: relations, skip: pagination.offset, take: pagination.limit})
             .catch(error => error);
         }
         return await this.query(options)
@@ -58,29 +58,35 @@ export class BaseService implements BaseServiceInterface {
 
     async findRelationshipEntity(id: string, relations): Promise<BaseEntityInterface> {
         return await this.repository.findOne(id, { relations: [relations] })
-          .then(entity => entity[relations])
+          .then(entity => entity[relations]);
     }
     
     async query(options: QueryOptions) {
+
         var builder: SelectQueryBuilder<BaseEntityInterface>;
-        const {relations, filter} = options;
         var table_name = this.repository.target['name'];
+        const {relations, filter, pagination} = options;
+        
         table_name =  table_name ? table_name.toLowerCase() : "a";
-        builder = await this.repository.createQueryBuilder(table_name)
+        builder = await this.repository.createQueryBuilder(table_name);
         
         if (relations) {
             relations.map(rel => {
                 builder.leftJoinAndSelect(table_name+"."+rel, rel)
             });
         }
-        console.log(filter)
+        
         filter.map((condition, index) => {
-            index === 0 ?
-                builder.where(condition):
-                builder.andWhere(condition)
+            if (condition) {
+                index === 0 ?
+                    builder.where(condition):
+                    builder.andWhere(condition);
+            };
         })
-        // builder.skip(5)
-        // builder.take(5)
-        return builder.getMany()
+        
+        builder.skip(pagination.offset);
+        builder.take(pagination.limit);
+        
+        return builder.getMany();
     }
 }
