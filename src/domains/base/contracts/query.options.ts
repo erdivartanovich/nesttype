@@ -4,34 +4,47 @@ import { HttpStatus } from "@nestjs/common";
 export interface QueryOptions {
     relations: string[],
     filter: string[],
+    where: string[],
     pagination: {offset: number, limit: number}
 }
 
 export const queryParams = function(query): QueryOptions {
     const relations = query.include ? query.include.split(",") : null;
-    const filter = query.filter ? buildFilter(query.filter) : null;
+    const {filter, where} = query.filter ? buildFilter(query.filter) : null;
     const {offset, limit} = query.page ? query.page : {offset: 0, limit: 0};
     const params: QueryOptions = {
         relations: relations,
         filter: filter,
+        where: where,
         pagination: {offset: offset||0, limit: limit||0}
     }
     return params;
 }
 
-function buildFilter(raw: Object): string[] {
+function buildFilter(raw: Object): {filter: string[], where: string[]} {
     const filter = [];
+    const where = [];
     
     Object.keys(raw).map((key, index) => {
+        let criteria, fields, condition;
         let op = Object.keys(raw[key])[0];
-        let {operator, tipe} = mapOperator(op);        
-        let criteria = mapCriteria(tipe, raw[key][op]);
-        let fields = key.split(",");
-        let condition = [fields, operator, criteria].join(" ");
-        fields.map(field => filter.push(condition));
+        let {operator, tipe} = mapOperator(op);    
+        
+        criteria = mapCriteria(tipe, raw[key][op]);
+        fields = key.split(",");
+        condition = [fields, operator, criteria].join(" ");
+
+        if (key.includes(".")) {
+            fields.map(field => filter.push(condition));
+        } else {
+            fields.map(field => where.push(condition));
+        }
     });
 
-    return filter.length>0 ? filter : null;
+    return {
+        filter: filter,
+        where: where
+    };
 }
 
 

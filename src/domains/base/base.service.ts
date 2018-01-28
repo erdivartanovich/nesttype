@@ -65,8 +65,8 @@ export abstract class BaseService implements BaseServiceInterface {
 
         var builder: SelectQueryBuilder<BaseEntityInterface>;
         var tableAlias = this.repository.target['name'];
-        const {relations, filter, pagination} = options;
-        
+        const {relations, filter, where, pagination} = options;
+        console.log("******", options);
         tableAlias =  tableAlias ? tableAlias.toLowerCase() : "a";
         builder = await this.repository.createQueryBuilder(tableAlias);
         
@@ -77,8 +77,17 @@ export abstract class BaseService implements BaseServiceInterface {
             });
         }
         
-        // apply filter if exist in query parameter
-        filter.map((condition, index) => {
+        // TODO apply relation filter if exist in query parameter
+        // filter.map((condition, index) => {
+        //     if (condition) {
+        //         index === 0 ?
+        //             builder.where(condition):
+        //             builder.andWhere(condition);
+        //     };
+        // });
+
+        // apply where clause if exist in query parameter
+        where.map((condition, index) => {
             if (condition) {
                 index === 0 ?
                     builder.where(condition):
