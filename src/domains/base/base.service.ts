@@ -78,13 +78,15 @@ export abstract class BaseService implements BaseServiceInterface {
         }
         
         // TODO apply relation filter if exist in query parameter
-        // filter.map((condition, index) => {
-        //     if (condition) {
-        //         index === 0 ?
-        //             builder.where(condition):
-        //             builder.andWhere(condition);
-        //     };
-        // });
+        // In left join "If" operator is negation (<>, not in) it should apply in "ON" relation condition
+        // If operator is not negation then it should apply to where clause
+        filter.map((condition, index) => {
+            if (condition) {
+                index === 0 ?
+                    builder.where(condition):
+                    builder.andWhere(condition);
+            };
+        });
 
         // apply where clause if exist in query parameter
         where.map((condition, index) => {
@@ -93,13 +95,13 @@ export abstract class BaseService implements BaseServiceInterface {
                     builder.where(condition):
                     builder.andWhere(condition);
             };
-        })
+        });
         
         // apply pagination
         builder.skip(pagination.offset);
         builder.take(pagination.limit);
         
-        return builder.getMany();
         // return builder.getSql();
+        return builder.getMany();
     }
 }
