@@ -3,4 +3,5 @@ import { ContainerInterface } from './container.interface';
 import { BaseDto } from '../../base/contracts/base.dto';
 
 export class ContainerDto extends BaseDto implements ContainerInterface {
+    readonly relations: Object;
 }

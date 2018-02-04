@@ -44,4 +44,5 @@ export class createUserDto extends BaseDto implements UserInterface {
     @IsInt()
     readonly auth_type: number;
 
+    readonly relations: Object;
 }

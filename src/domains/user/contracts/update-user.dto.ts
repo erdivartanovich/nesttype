@@ -35,4 +35,6 @@ export class updateUserDto extends BaseDto implements UserInterface {
     @IsInt()
     readonly auth_type: number;
 
+    readonly relations: Object;
+
 }
