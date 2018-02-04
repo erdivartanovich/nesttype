@@ -24,8 +24,7 @@ export abstract class BaseService implements BaseServiceInterface {
     }
 
     async findOne(id: string, options?: QueryOptions): Promise<any> {
-        const {relations} = options;
-
+        const {relations} = options ? options : {relations: null};
         return await this.repository.findOne(id, {relations: relations})
         .catch(error => error);
     }
@@ -40,13 +39,20 @@ export abstract class BaseService implements BaseServiceInterface {
     }
 
     async update(id: string, dto: Object): Promise<BaseEntityInterface> {
-        return await this.repository.findOneOrFail(id)
+        const relations = dto["relations"] ? Object.keys(dto["relations"]) : [];
+
+        return await this.repository.findOneOrFail(id, {relations: relations})
         .then(entity => {
             for (const key in dto) {
                 if (entity.hasOwnProperty(key)) {
                     entity[key] = dto[key];
                 }
             }
+            relations.map(rel => {
+                if (entity.hasOwnProperty(rel)) {
+                    entity[rel] = dto["relations"][rel];
+                }
+            });
             return this.repository.save(entity);
         })
         .catch(error => {

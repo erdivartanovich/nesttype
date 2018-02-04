@@ -27,7 +27,7 @@ export class PotController {
 	find(@Param() params, @Query() query): Promise<BaseEntityInterface> {
         const id = params.id;
         const options = queryParams(query);
-        return  this.potService.findOne(id);
+        return  this.potService.findOne(id, options);
     }
 
      @Post()

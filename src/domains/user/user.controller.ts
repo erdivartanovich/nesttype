@@ -25,7 +25,7 @@ export class UserController {
 	find(@Param() params, @Query() query): Promise<BaseEntityInterface> {
         const id = params.id;
         const options = queryParams(query);
-        return this.userService.findOne(id);
+        return this.userService.findOne(id, options);
     }
 
     @Post()
