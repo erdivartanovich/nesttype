@@ -21,8 +21,12 @@ import { BaseEntityInterface } from '../base/contracts/base-entity.interface';
 
   async findUser(id: string): Promise<BaseEntityInterface> {
     return await this.findContainer(id)
-      .then(container => this.repository.manager.findOne('container', container.id, {relations: ['user']}))
-      .then(container => container['user']);
+      .then(container => 
+        container ?
+          this.repository.manager.findOne('container', container.id, {relations: ['user']})
+          : null
+      )
+      .then(container => container ? container['user'] : null);
   }
 
   async findContainer(id: string): Promise<BaseEntityInterface> {
