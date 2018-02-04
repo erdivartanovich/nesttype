@@ -50,7 +50,7 @@ export abstract class BaseService implements BaseServiceInterface {
             }
             relations.map(rel => {
                 if (entity.hasOwnProperty(rel)) {
-                    entity[rel] = dto["relations"][rel];
+                    entity[rel] = dto["relations"][rel]["data"];
                 }
             });
             return this.repository.save(entity);
