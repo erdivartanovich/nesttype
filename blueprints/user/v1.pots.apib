@@ -210,7 +210,7 @@ Go ahead to [Reference](https://v1pothappiplants.docs.apiary.io/#reference/0/pot
 ### Get one Pot [GET /pots/{id}]
 
 + Parameters
-    + id: `27a40760-12fa-4c60-95a8-4045d834ab14` (number, required) - Pot id (uuid)
+    + id: `9c9941c8-5c50-48d2-974b-c2ba29be35d9` (string, required) - pot id (uuid)
 
 + Request (application/vnd.api+json)
     + Headers
@@ -234,7 +234,8 @@ Go ahead to [Reference](https://v1pothappiplants.docs.apiary.io/#reference/0/pot
             Authorization: Bearer 71260693-8eb9-45d8-8781-f60fc32a1dff
 
     + Attributes
-        + data (Pot)
+        + data 
+            + attributes (Pot)
 
 + Response 200 (application/vnd.api+json)
     + Attributes
@@ -252,7 +253,7 @@ Go ahead to [Reference](https://v1pothappiplants.docs.apiary.io/#reference/0/pot
 ### Update Pot [PATCH /pots/{id}]
 
 + Parameters
-    + id: `1` (number, required) - user id
+    + id: `9c9941c8-5c50-48d2-974b-c2ba29be35d9` (string, required) - pot id
 
 + Request (application/vnd.api+json)
     + Headers
@@ -260,7 +261,8 @@ Go ahead to [Reference](https://v1pothappiplants.docs.apiary.io/#reference/0/pot
             Authorization: Bearer 71260693-8eb9-45d8-8781-f60fc32a1dff
 
     + Attributes
-        + data (Pot)
+        + data 
+            + attributes (Pot)
 
 + Response 200 (application/vnd.api+json)
     + Attributes
@@ -289,6 +291,10 @@ Go ahead to [Reference](https://v1pothappiplants.docs.apiary.io/#reference/0/pot
 - lamp_status: 1 (number)
 - created_at: `2018/01/01 00:00:00` (string)
 - updated_at: `2018/01/01 00:00:00` (string)
+- relations
+    + container
+        + data
+            - id : `12911713-a69f-447a-b9e4-84a2055b0ac0` (string)
 
 ### Error
 - links (string)
